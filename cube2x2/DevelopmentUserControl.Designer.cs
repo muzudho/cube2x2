@@ -1,4 +1,4 @@
-﻿namespace Cube2x2
+﻿namespace Grayscale.Cube2x2
 {
     /// <summary>
     /// 展開図コントロール。

@@ -1,4 +1,4 @@
-﻿namespace Cube2x2
+﻿namespace Grayscale.Cube2x2
 {
     using System;
     using System.Collections.Generic;
@@ -21,6 +21,15 @@
         public Cube2x2()
         {
             this.InitializeComponent();
+            this.timer1.Start();
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            var rand = new Random();
+
+            // 0～11
+            this.developmentUserControl1.RotateOnly(rand.Next(12));
         }
     }
 }

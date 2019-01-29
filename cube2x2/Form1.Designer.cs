@@ -1,4 +1,4 @@
-﻿namespace Cube2x2
+﻿namespace Grayscale.Cube2x2
 {
     /// <summary>
     /// 2x2のキューブ。
@@ -31,7 +31,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.developmentUserControl1 = new Cube2x2.DevelopmentUserControl();
+            this.components = new System.ComponentModel.Container();
+            this.developmentUserControl1 = new Grayscale.Cube2x2.DevelopmentUserControl();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // developmentUserControl1
@@ -41,6 +43,10 @@
             this.developmentUserControl1.Name = "developmentUserControl1";
             this.developmentUserControl1.Size = new System.Drawing.Size(800, 450);
             this.developmentUserControl1.TabIndex = 0;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Cube2x2
             // 
@@ -57,6 +63,7 @@
         #endregion
 
         private DevelopmentUserControl developmentUserControl1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
