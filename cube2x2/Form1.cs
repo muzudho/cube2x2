@@ -5,6 +5,8 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Windows.Forms;
+    using System.IO;
+    using System.Text;
 
     /// <summary>
     /// 2x2のキューブ。
@@ -47,6 +49,25 @@
             this.previousBoardText = this.developmentUserControl1.GetBoardText();
         }
 
+        /// <summary>
+        /// 定跡全文。
+        /// </summary>
+        /// <returns>定跡。</returns>
+        public string ToBookText()
+        {
+            var builder = new StringBuilder();
+            foreach (var record in this.book)
+            {
+                builder.AppendLine(string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0} {1}",
+                    record.Key,
+                    record.Value.ToText()));
+            }
+
+            return builder.ToString();
+        }
+
         private void Timer1_Tick(object sender, EventArgs e)
         {
             var rand = new Random();
@@ -81,9 +102,12 @@
             {
                 Trace.WriteLine(string.Format(
                     CultureInfo.CurrentCulture,
-                    "{0} {1}",
+                    "Write: ./book.txt {0} {1}",
                     currentBoardText,
                     bookRecord.ToText()));
+
+                // TODO ばんばん保存。
+                File.WriteAllText("./book.txt", this.ToBookText());
             }
 
             this.ply++;
