@@ -1,4 +1,4 @@
-﻿namespace Grayscale.Cube2x2
+﻿namespace Grayscale.Cube2x2BookGenerate
 {
     using System;
     using System.Collections.Generic;

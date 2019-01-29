@@ -1,4 +1,4 @@
-﻿namespace Grayscale.Cube2x2
+﻿namespace Grayscale.Cube2x2BookGenerate
 {
     /// <summary>
     /// 2x2のキューブ。
@@ -32,7 +32,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.developmentUserControl1 = new Grayscale.Cube2x2.DevelopmentUserControl();
+            this.developmentUserControl1 = new Grayscale.Cube2x2BookGenerate.DevelopmentUserControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 

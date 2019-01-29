@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0E5E1DBB-9535-4EAA-B7F4-EAE76BBC4803}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Grayscale.Cube2x2</RootNamespace>
-    <AssemblyName>Grayscale.Cube2x2</AssemblyName>
+    <RootNamespace>Grayscale.Cube2x2BookGenerate</RootNamespace>
+    <AssemblyName>Grayscale.Cube2x2BookGenerate</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -22,9 +22,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Cube2x2.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>cube2x2-book-generate.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>..\bin\Debug\Grayscale.Cube2x2.xml</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\Grayscale.Cube2x2BookGenerate.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,8 +34,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Cube2x2.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\bin\Release\Grayscale.Cube2x2.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>cube2x2-book-generate.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\bin\Release\Grayscale.Cube2x2BookGenerate.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -83,7 +83,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Cube2x2.ruleset" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

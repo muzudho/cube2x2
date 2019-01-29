@@ -1,12 +1,12 @@
-﻿namespace Grayscale.Cube2x2
+﻿namespace Grayscale.Cube2x2BookGenerate
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
-    using System.Windows.Forms;
     using System.IO;
     using System.Text;
+    using System.Windows.Forms;
 
     /// <summary>
     /// 2x2のキューブ。
@@ -58,10 +58,14 @@
         /// </summary>
         public void ReadBook()
         {
-            foreach (var line in File.ReadAllLines("./book.txt"))
+            this.book.Clear();
+            if (File.Exists("./book.txt"))
             {
-                var tokens = line.Split(' ');
-                this.book.Add(tokens[0], new BookRecord(tokens[1], int.Parse(tokens[2]), int.Parse(tokens[3])));
+                foreach (var line in File.ReadAllLines("./book.txt"))
+                {
+                    var tokens = line.Split(' ');
+                    this.book.Add(tokens[0], new BookRecord(tokens[1], int.Parse(tokens[2]), int.Parse(tokens[3])));
+                }
             }
         }
 
