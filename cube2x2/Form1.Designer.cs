@@ -46,6 +46,7 @@
             // 
             // timer1
             // 
+            this.timer1.Interval = 16;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Cube2x2

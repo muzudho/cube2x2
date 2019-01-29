@@ -36,6 +36,10 @@
             this.InitializeComponent();
             this.book = new Dictionary<string, BookRecord>();
             this.SetNewGame();
+
+            // 定跡読込。
+            this.ReadBook();
+
             this.timer1.Start();
         }
 
@@ -47,6 +51,18 @@
             this.ply = 0;
             this.developmentUserControl1.SetNewGame();
             this.previousBoardText = this.developmentUserControl1.GetBoardText();
+        }
+
+        /// <summary>
+        /// 定跡読込。
+        /// </summary>
+        public void ReadBook()
+        {
+            foreach (var line in File.ReadAllLines("./book.txt"))
+            {
+                var tokens = line.Split(' ');
+                this.book.Add(tokens[0], new BookRecord(tokens[1], int.Parse(tokens[2]), int.Parse(tokens[3])));
+            }
         }
 
         /// <summary>
@@ -102,9 +118,10 @@
             {
                 Trace.WriteLine(string.Format(
                     CultureInfo.CurrentCulture,
-                    "Write: ./book.txt {0} {1}",
+                    "Write: ./book.txt {0} {1} size({2})",
                     currentBoardText,
-                    bookRecord.ToText()));
+                    bookRecord.ToText(),
+                    this.book.Count));
 
                 // TODO ばんばん保存。
                 File.WriteAllText("./book.txt", this.ToBookText());
