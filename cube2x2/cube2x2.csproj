@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookRecord.cs" />
+    <Compile Include="ColorHelper.cs" />
     <Compile Include="DevelopmentUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -1,6 +1,7 @@
 ﻿namespace Grayscale.Cube2x2
 {
     using System.Drawing;
+    using System.Globalization;
     using System.Windows.Forms;
 
     /// <summary>
@@ -41,7 +42,7 @@
                 this.tile22,
                 this.tile23,
             };
-            this.SetStartPosition();
+            this.SetNewGame();
         }
 
         /// <summary>
@@ -50,9 +51,9 @@
         public Panel[] TileArray { get; set; }
 
         /// <summary>
-        /// 初期位置に戻します。
+        /// ゲーム開始状態に戻します。
         /// </summary>
-        public void SetStartPosition()
+        public void SetNewGame()
         {
             this.TileArray[0].BackColor = Color.Orange;
             this.TileArray[1].BackColor = Color.Orange;
@@ -166,6 +167,41 @@
                     this.Shift4(2, 0, 1, 3);
                     break;
             }
+        }
+
+        /// <summary>
+        /// 盤面を、文字列で返す。
+        /// </summary>
+        /// <returns>局面</returns>
+        public string GetBoardText()
+        {
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "{0}{1}{2}{3}/{4}{5}{6}{7}/{8}{9}{10}{11}/{12}{13}{14}{15}/{16}{17}{18}{19}/{20}{21}{22}{23}",
+                ColorHelper.GetShort(this.TileArray[0].BackColor),
+                ColorHelper.GetShort(this.TileArray[1].BackColor),
+                ColorHelper.GetShort(this.TileArray[2].BackColor),
+                ColorHelper.GetShort(this.TileArray[3].BackColor),
+                ColorHelper.GetShort(this.TileArray[4].BackColor),
+                ColorHelper.GetShort(this.TileArray[5].BackColor),
+                ColorHelper.GetShort(this.TileArray[6].BackColor),
+                ColorHelper.GetShort(this.TileArray[7].BackColor),
+                ColorHelper.GetShort(this.TileArray[8].BackColor),
+                ColorHelper.GetShort(this.TileArray[9].BackColor),
+                ColorHelper.GetShort(this.TileArray[10].BackColor),
+                ColorHelper.GetShort(this.TileArray[11].BackColor),
+                ColorHelper.GetShort(this.TileArray[12].BackColor),
+                ColorHelper.GetShort(this.TileArray[13].BackColor),
+                ColorHelper.GetShort(this.TileArray[14].BackColor),
+                ColorHelper.GetShort(this.TileArray[15].BackColor),
+                ColorHelper.GetShort(this.TileArray[16].BackColor),
+                ColorHelper.GetShort(this.TileArray[17].BackColor),
+                ColorHelper.GetShort(this.TileArray[18].BackColor),
+                ColorHelper.GetShort(this.TileArray[19].BackColor),
+                ColorHelper.GetShort(this.TileArray[20].BackColor),
+                ColorHelper.GetShort(this.TileArray[21].BackColor),
+                ColorHelper.GetShort(this.TileArray[22].BackColor),
+                ColorHelper.GetShort(this.TileArray[23].BackColor));
         }
     }
 }
