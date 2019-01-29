@@ -88,6 +88,29 @@
             return builder.ToString();
         }
 
+        /// <summary>
+        /// より短い手数が発見された。
+        /// </summary>
+        /// <param name="boardText">その盤面。</param>
+        /// <param name="shortPly">最短手数。</param>
+        private void UpdateBookRecord(string boardText, int shortPly)
+        {
+            foreach (var record in this.book)
+            {
+                if (record.Value.PreviousBoardText == boardText)
+                {
+                    // 念のため調べておくが、必ず短くなるはず。
+                    if (shortPly < record.Value.Ply - 1)
+                    {
+                        record.Value.Ply = shortPly + 1;
+
+                        // 処理が重くなるが、再帰的に全部調べる。
+                        this.UpdateBookRecord(record.Key, record.Value.Ply);
+                    }
+                }
+            }
+        }
+
         private void Timer1_Tick(object sender, EventArgs e)
         {
             var rand = new Random();
@@ -107,9 +130,14 @@
                 var exists = this.book[currentBoardText];
                 if (bookRecord.Ply < exists.Ply)
                 {
+                    // 短い手数が発見された。
+
                     // 上書き。
                     this.book[currentBoardText] = bookRecord;
                     newRecord = true;
+
+                    // 他の手も 芋づる式に更新できるかもしれない。
+                    this.UpdateBookRecord(currentBoardText, bookRecord.Ply);
                 }
             }
             else
@@ -135,7 +163,8 @@
             this.previousBoardText = currentBoardText;
 
             // どんな局面からでも 14手 で戻せるらしい。
-            if (this.ply > 14)
+            // しかし それでは探索が広がらないので、99手まで続けることにする。
+            if (this.ply > 99)
             {
                 this.SetNewGame();
             }
