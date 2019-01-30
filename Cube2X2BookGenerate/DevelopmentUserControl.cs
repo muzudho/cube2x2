@@ -1,9 +1,7 @@
 ﻿namespace Grayscale.Cube2X2BookGenerate
 {
     using System.Drawing;
-    using System.Globalization;
     using System.Windows.Forms;
-    using Grayscale.Cube2X2BookGenerate;
 
     /// <summary>
     /// 展開図コントロール。
