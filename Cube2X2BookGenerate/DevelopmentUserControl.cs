@@ -1,8 +1,9 @@
-﻿namespace Grayscale.Cube2x2BookGenerate
+﻿namespace Grayscale.Cube2X2BookGenerate
 {
     using System.Drawing;
     using System.Globalization;
     using System.Windows.Forms;
+    using Grayscale.Cube2X2BookGenerate;
 
     /// <summary>
     /// 展開図コントロール。
@@ -15,7 +16,7 @@
         public DevelopmentUserControl()
         {
             this.InitializeComponent();
-            this.TileArray = new Panel[]
+            this.DevelopmentTiles = new DevelopmentTiles(new Panel[]
             {
                 this.tile0,
                 this.tile1,
@@ -41,44 +42,43 @@
                 this.tile21,
                 this.tile22,
                 this.tile23,
-            };
-            this.SetNewGame();
+            });
         }
 
         /// <summary>
-        /// Gets or sets タイルの配列。
+        /// Gets or sets 展開図ユーザーコントロール。
         /// </summary>
-        public Panel[] TileArray { get; set; }
+        public DevelopmentTiles DevelopmentTiles { get; set; }
 
         /// <summary>
         /// ゲーム開始状態に戻します。
         /// </summary>
         public void SetNewGame()
         {
-            this.TileArray[0].BackColor = Color.Orange;
-            this.TileArray[1].BackColor = Color.Orange;
-            this.TileArray[2].BackColor = Color.Orange;
-            this.TileArray[3].BackColor = Color.Orange;
-            this.TileArray[4].BackColor = Color.Violet;
-            this.TileArray[5].BackColor = Color.Violet;
-            this.TileArray[6].BackColor = Color.Violet;
-            this.TileArray[7].BackColor = Color.Violet;
-            this.TileArray[8].BackColor = Color.Pink;
-            this.TileArray[9].BackColor = Color.Pink;
-            this.TileArray[10].BackColor = Color.Pink;
-            this.TileArray[11].BackColor = Color.Pink;
-            this.TileArray[12].BackColor = Color.SkyBlue;
-            this.TileArray[13].BackColor = Color.SkyBlue;
-            this.TileArray[14].BackColor = Color.SkyBlue;
-            this.TileArray[15].BackColor = Color.SkyBlue;
-            this.TileArray[16].BackColor = Color.LightGray;
-            this.TileArray[17].BackColor = Color.LightGray;
-            this.TileArray[18].BackColor = Color.LightGray;
-            this.TileArray[19].BackColor = Color.LightGray;
-            this.TileArray[20].BackColor = Color.Lime;
-            this.TileArray[21].BackColor = Color.Lime;
-            this.TileArray[22].BackColor = Color.Lime;
-            this.TileArray[23].BackColor = Color.Lime;
+            this.DevelopmentTiles.SetTileColor(0, Color.Orange);
+            this.DevelopmentTiles.SetTileColor(1, Color.Orange);
+            this.DevelopmentTiles.SetTileColor(2, Color.Orange);
+            this.DevelopmentTiles.SetTileColor(3, Color.Orange);
+            this.DevelopmentTiles.SetTileColor(4, Color.Violet);
+            this.DevelopmentTiles.SetTileColor(5, Color.Violet);
+            this.DevelopmentTiles.SetTileColor(6, Color.Violet);
+            this.DevelopmentTiles.SetTileColor(7, Color.Violet);
+            this.DevelopmentTiles.SetTileColor(8, Color.Pink);
+            this.DevelopmentTiles.SetTileColor(9, Color.Pink);
+            this.DevelopmentTiles.SetTileColor(10, Color.Pink);
+            this.DevelopmentTiles.SetTileColor(11, Color.Pink);
+            this.DevelopmentTiles.SetTileColor(12, Color.SkyBlue);
+            this.DevelopmentTiles.SetTileColor(13, Color.SkyBlue);
+            this.DevelopmentTiles.SetTileColor(14, Color.SkyBlue);
+            this.DevelopmentTiles.SetTileColor(15, Color.SkyBlue);
+            this.DevelopmentTiles.SetTileColor(16, Color.LightGray);
+            this.DevelopmentTiles.SetTileColor(17, Color.LightGray);
+            this.DevelopmentTiles.SetTileColor(18, Color.LightGray);
+            this.DevelopmentTiles.SetTileColor(19, Color.LightGray);
+            this.DevelopmentTiles.SetTileColor(20, Color.Lime);
+            this.DevelopmentTiles.SetTileColor(21, Color.Lime);
+            this.DevelopmentTiles.SetTileColor(22, Color.Lime);
+            this.DevelopmentTiles.SetTileColor(23, Color.Lime);
         }
 
         /// <summary>
@@ -91,11 +91,11 @@
         public void Shift4(int a, int b, int c, int d)
         {
             // 展開図
-            var temp = this.TileArray[d].BackColor;
-            this.TileArray[d].BackColor = this.TileArray[c].BackColor;
-            this.TileArray[c].BackColor = this.TileArray[b].BackColor;
-            this.TileArray[b].BackColor = this.TileArray[a].BackColor;
-            this.TileArray[a].BackColor = temp;
+            var temp = this.DevelopmentTiles.GetTileColor(d);
+            this.DevelopmentTiles.SetTileColor(d, this.DevelopmentTiles.GetTileColor(c));
+            this.DevelopmentTiles.SetTileColor(c, this.DevelopmentTiles.GetTileColor(b));
+            this.DevelopmentTiles.SetTileColor(b, this.DevelopmentTiles.GetTileColor(a));
+            this.DevelopmentTiles.SetTileColor(a, temp);
         }
 
         /// <summary>
@@ -175,33 +175,7 @@
         /// <returns>局面</returns>
         public string GetBoardText()
         {
-            return string.Format(
-                CultureInfo.CurrentCulture,
-                "{0}{1}{2}{3}/{4}{5}{6}{7}/{8}{9}{10}{11}/{12}{13}{14}{15}/{16}{17}{18}{19}/{20}{21}{22}{23}",
-                ColorHelper.GetShort(this.TileArray[0].BackColor),
-                ColorHelper.GetShort(this.TileArray[1].BackColor),
-                ColorHelper.GetShort(this.TileArray[2].BackColor),
-                ColorHelper.GetShort(this.TileArray[3].BackColor),
-                ColorHelper.GetShort(this.TileArray[4].BackColor),
-                ColorHelper.GetShort(this.TileArray[5].BackColor),
-                ColorHelper.GetShort(this.TileArray[6].BackColor),
-                ColorHelper.GetShort(this.TileArray[7].BackColor),
-                ColorHelper.GetShort(this.TileArray[8].BackColor),
-                ColorHelper.GetShort(this.TileArray[9].BackColor),
-                ColorHelper.GetShort(this.TileArray[10].BackColor),
-                ColorHelper.GetShort(this.TileArray[11].BackColor),
-                ColorHelper.GetShort(this.TileArray[12].BackColor),
-                ColorHelper.GetShort(this.TileArray[13].BackColor),
-                ColorHelper.GetShort(this.TileArray[14].BackColor),
-                ColorHelper.GetShort(this.TileArray[15].BackColor),
-                ColorHelper.GetShort(this.TileArray[16].BackColor),
-                ColorHelper.GetShort(this.TileArray[17].BackColor),
-                ColorHelper.GetShort(this.TileArray[18].BackColor),
-                ColorHelper.GetShort(this.TileArray[19].BackColor),
-                ColorHelper.GetShort(this.TileArray[20].BackColor),
-                ColorHelper.GetShort(this.TileArray[21].BackColor),
-                ColorHelper.GetShort(this.TileArray[22].BackColor),
-                ColorHelper.GetShort(this.TileArray[23].BackColor));
+            return this.DevelopmentTiles.GetBoardText();
         }
     }
 }

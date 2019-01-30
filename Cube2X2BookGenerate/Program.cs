@@ -1,9 +1,6 @@
-﻿namespace Grayscale.Cube2x2BookGenerate
+﻿namespace Grayscale.Cube2X2BookGenerate
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
 
     /// <summary>
@@ -19,7 +16,7 @@
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Cube2x2());
+            Application.Run(new Form1());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Grayscale.Cube2x2BookGenerate
+﻿namespace Grayscale.Cube2X2BookGenerate
 {
     /// <summary>
     /// 展開図コントロール。

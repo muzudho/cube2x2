@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0E5E1DBB-9535-4EAA-B7F4-EAE76BBC4803}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Grayscale.Cube2x2BookGenerate</RootNamespace>
-    <AssemblyName>Grayscale.Cube2x2BookGenerate</AssemblyName>
+    <RootNamespace>Grayscale.Cube2X2BookGenerate</RootNamespace>
+    <AssemblyName>Grayscale.Cube2X2BookGenerate</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -24,7 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>cube2x2-book-generate.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>..\bin\Debug\Grayscale.Cube2x2BookGenerate.xml</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\Grayscale.Cube2X2BookGenerate.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>cube2x2-book-generate.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\bin\Release\Grayscale.Cube2x2BookGenerate.xml</DocumentationFile>
+    <DocumentationFile>..\bin\Release\Grayscale.Cube2X2BookGenerate.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,6 +65,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="DevelopmentTiles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DevelopmentUserControl.resx">

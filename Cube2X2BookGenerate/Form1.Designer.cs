@@ -1,9 +1,9 @@
-﻿namespace Grayscale.Cube2x2BookGenerate
+﻿namespace Grayscale.Cube2X2BookGenerate
 {
     /// <summary>
     /// 2x2のキューブ。
     /// </summary>
-    partial class Cube2x2
+    partial class Form1
     {
         /// <summary>
         /// 必要なデザイナー変数です。
@@ -32,7 +32,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.developmentUserControl1 = new Grayscale.Cube2x2BookGenerate.DevelopmentUserControl();
+            this.developmentUserControl1 = new Grayscale.Cube2X2BookGenerate.DevelopmentUserControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 

@@ -1,4 +1,4 @@
-﻿namespace Grayscale.Cube2x2BookGenerate
+﻿namespace Grayscale.Cube2X2BookGenerate
 {
     using System;
     using System.Collections.Generic;
@@ -11,8 +11,13 @@
     /// <summary>
     /// 2x2のキューブ。
     /// </summary>
-    public partial class Cube2x2 : Form
+    public partial class Form1 : Form
     {
+        /// <summary>
+        /// 棋譜。
+        /// </summary>
+        private int[] record;
+
         /// <summary>
         /// 初期局面から何手目か。
         /// </summary>
@@ -29,11 +34,12 @@
         private Dictionary<string, BookRecord> book;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cube2x2"/> class.
+        /// Initializes a new instance of the <see cref="Form1"/> class.
         /// </summary>
-        public Cube2x2()
+        public Form1()
         {
             this.InitializeComponent();
+            this.record = new int[100];
             this.book = new Dictionary<string, BookRecord>();
             this.SetNewGame();
 
@@ -64,7 +70,26 @@
                 foreach (var line in File.ReadAllLines("./book.txt"))
                 {
                     var tokens = line.Split(' ');
-                    this.book.Add(tokens[0], new BookRecord(tokens[1], int.Parse(tokens[2]), int.Parse(tokens[3])));
+
+                    // 次の一手。
+                    var move = int.Parse(tokens[2], CultureInfo.CurrentCulture);
+
+                    // 手数。
+                    var ply = int.Parse(tokens[3], CultureInfo.CurrentCulture);
+
+                    // 既に追加されているやつがあれば、手数を比較する。
+                    if (this.book.ContainsKey(tokens[0]))
+                    {
+                        if (ply < this.book[tokens[0]].Ply)
+                        {
+                            // 短くなっていれば更新する。
+                            this.book[tokens[0]] = new BookRecord(tokens[1], move, ply);
+                        }
+                    }
+                    else
+                    {
+                        this.book.Add(tokens[0], new BookRecord(tokens[1], move, ply));
+                    }
                 }
             }
         }
@@ -116,8 +141,30 @@
             var rand = new Random();
 
             // 0～11。
-            var handle = rand.Next(12);
+            int handle;
+
+            while (true)
+            {
+                handle = rand.Next(12);
+
+                // 3手続けて同じ個所を回すのは、逆回りに1回回すのと同じなので、そのような手は除外する。
+                if (this.ply > 2 && handle == this.record[this.ply - 1] && handle == this.record[this.ply - 2])
+                {
+                    Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Info: 3連続同じ手は除外。"));
+                    continue;
+                }
+
+                break;
+            }
+
+            // キューブをひねる。
             this.developmentUserControl1.RotateOnly(handle);
+
+            // 正規化した局面を作成。
+            // var normalizedPosition = NormalizedPosition.Build(this.developmentUserControl1.DevelopmentTiles);
+
+            // 展開図を正規化する。
+            // normalizedPosition.Normalize(this.developmentUserControl1.DevelopmentTiles);
 
             // 定跡作成。
             // 現盤面 前盤面 指し手 初期局面からの手数
@@ -159,6 +206,7 @@
                 File.WriteAllText("./book.txt", this.ToBookText());
             }
 
+            this.record[this.ply] = handle;
             this.ply++;
             this.previousBoardText = currentBoardText;
 
