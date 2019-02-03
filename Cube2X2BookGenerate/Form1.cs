@@ -14,16 +14,6 @@
     public partial class Form1 : Form
     {
         /// <summary>
-        /// 棋譜。
-        /// </summary>
-        private int[] record;
-
-        /// <summary>
-        /// 初期局面から何手目か。
-        /// </summary>
-        private int ply;
-
-        /// <summary>
         /// 1つ前の盤面。
         /// </summary>
         private string previousBoardText;
@@ -39,7 +29,6 @@
         public Form1()
         {
             this.InitializeComponent();
-            this.record = new int[100];
             this.book = new Dictionary<string, BookRow>();
             this.SetNewGame();
 
@@ -54,7 +43,7 @@
         /// </summary>
         public void SetNewGame()
         {
-            this.ply = 0;
+            Record.SetNewGame();
             this.developmentUserControl1.SetNewGame();
             this.previousBoardText = this.developmentUserControl1.GetBoardText();
         }
@@ -141,21 +130,7 @@
             var rand = new Random();
 
             // 0～11。
-            int handle;
-
-            while (true)
-            {
-                handle = rand.Next(12);
-
-                // 3手続けて同じ個所を回すのは、逆回りに1回回すのと同じなので、そのような手は除外する。
-                if (this.ply > 2 && handle == this.record[this.ply - 1] && handle == this.record[this.ply - 2])
-                {
-                    Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Info: 3連続同じ手は除外。"));
-                    continue;
-                }
-
-                break;
-            }
+            int handle = MovePicker.MakeMove();
 
             // キューブをひねる。
             this.developmentUserControl1.RotateOnly(handle);
@@ -169,7 +144,7 @@
             // 定跡作成。
             // 現盤面 前盤面 指し手 初期局面からの手数
             var currentBoardText = this.developmentUserControl1.GetBoardText();
-            var bookRecord = new BookRow(this.previousBoardText, handle, this.ply);
+            var bookRecord = new BookRow(this.previousBoardText, handle, Record.Ply);
 
             bool newRecord = false;
             if (this.book.ContainsKey(currentBoardText))
@@ -207,13 +182,12 @@
                 Book.Save(this.ToBookText());
             }
 
-            this.record[this.ply] = handle;
-            this.ply++;
+            Record.AddMove(handle);
             this.previousBoardText = currentBoardText;
 
             // どんな局面からでも 14手 で戻せるらしい。
             // しかし それでは探索が広がらないので、99手まで続けることにする。
-            if (this.ply > 99)
+            if (Record.Ply > 99)
             {
                 this.SetNewGame();
             }
