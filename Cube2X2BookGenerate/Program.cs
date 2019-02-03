@@ -1,6 +1,8 @@
-﻿namespace Grayscale.Cube2X2BookGenerate
+﻿using System;
+
+[assembly: CLSCompliant(true)]
+namespace Grayscale.Cube2X2BookGenerate
 {
-    using System;
     using System.Windows.Forms;
 
     /// <summary>

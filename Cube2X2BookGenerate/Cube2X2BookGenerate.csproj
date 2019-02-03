@@ -36,6 +36,13 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>cube2x2-book-generate.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>..\bin\Release\Grayscale.Cube2X2BookGenerate.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>cube2x2-book-generate.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -92,6 +99,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="cube2x2-book-generate.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

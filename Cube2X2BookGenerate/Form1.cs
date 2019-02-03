@@ -19,9 +19,10 @@
         private string previousBoardText;
 
         /// <summary>
-        /// 定跡。
+        /// 0: 定跡生成フェーズ。
+        /// 1: 検査フェーズ。
         /// </summary>
-        private Dictionary<string, BookRow> book;
+        private int phase;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
@@ -29,11 +30,10 @@
         public Form1()
         {
             this.InitializeComponent();
-            this.book = new Dictionary<string, BookRow>();
             this.SetNewGame();
 
             // 定跡読込。
-            this.ReadBook();
+            Book.Read();
 
             this.timer1.Start();
         }
@@ -49,86 +49,10 @@
         }
 
         /// <summary>
-        /// 定跡読込。
+        /// 定跡生成フェーズ。
         /// </summary>
-        public void ReadBook()
+        private void GenerateBookRow()
         {
-            this.book.Clear();
-            if (File.Exists("./book.txt"))
-            {
-                foreach (var line in File.ReadAllLines("./book.txt"))
-                {
-                    var tokens = line.Split(' ');
-
-                    // 次の一手。
-                    var move = int.Parse(tokens[2], CultureInfo.CurrentCulture);
-
-                    // 手数。
-                    var ply = int.Parse(tokens[3], CultureInfo.CurrentCulture);
-
-                    // 既に追加されているやつがあれば、手数を比較する。
-                    if (this.book.ContainsKey(tokens[0]))
-                    {
-                        if (ply < this.book[tokens[0]].Ply)
-                        {
-                            // 短くなっていれば更新する。
-                            this.book[tokens[0]] = new BookRow(tokens[1], move, ply);
-                        }
-                    }
-                    else
-                    {
-                        this.book.Add(tokens[0], new BookRow(tokens[1], move, ply));
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 定跡全文。
-        /// </summary>
-        /// <returns>定跡。</returns>
-        public string ToBookText()
-        {
-            var builder = new StringBuilder();
-            foreach (var record in this.book)
-            {
-                builder.AppendLine(string.Format(
-                    CultureInfo.CurrentCulture,
-                    "{0} {1}",
-                    record.Key,
-                    record.Value.ToText()));
-            }
-
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// より短い手数が発見された。
-        /// </summary>
-        /// <param name="boardText">その盤面。</param>
-        /// <param name="shortPly">最短手数。</param>
-        private void UpdateBookRecord(string boardText, int shortPly)
-        {
-            foreach (var record in this.book)
-            {
-                if (record.Value.PreviousBoardText == boardText)
-                {
-                    // 念のため調べておくが、必ず短くなるはず。
-                    if (shortPly < record.Value.Ply - 1)
-                    {
-                        record.Value.Ply = shortPly + 1;
-
-                        // 処理が重くなるが、再帰的に全部調べる。
-                        this.UpdateBookRecord(record.Key, record.Value.Ply);
-                    }
-                }
-            }
-        }
-
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
-            var rand = new Random();
-
             // 0～11。
             int handle = MovePicker.MakeMove();
 
@@ -147,24 +71,24 @@
             var bookRecord = new BookRow(this.previousBoardText, handle, Record.Ply);
 
             bool newRecord = false;
-            if (this.book.ContainsKey(currentBoardText))
+            if (Book.ContainsKey(currentBoardText))
             {
-                var exists = this.book[currentBoardText];
+                var exists = Book.GetValue(currentBoardText);
                 if (bookRecord.Ply < exists.Ply)
                 {
                     // 短い手数が発見された。
 
                     // 上書き。
-                    this.book[currentBoardText] = bookRecord;
+                    Book.SetValue(currentBoardText, bookRecord);
                     newRecord = true;
 
                     // 他の手も 芋づる式に更新できるかもしれない。
-                    this.UpdateBookRecord(currentBoardText, bookRecord.Ply);
+                    Book.UpdateBookRecord(currentBoardText, bookRecord.Ply);
                 }
             }
             else
             {
-                this.book.Add(currentBoardText, bookRecord);
+                Book.AddValue(currentBoardText, bookRecord);
                 newRecord = true;
             }
 
@@ -176,10 +100,10 @@
                     "Write: ./book.txt {0} {1} size({2})",
                     currentBoardText,
                     bookRecord.ToText(),
-                    this.book.Count));
+                    Book.Count));
 
                 // TODO ファイル アクセスの回数を減らしたい☆（＾～＾）
-                Book.Save(this.ToBookText());
+                Book.Save(Book.ToText());
             }
 
             Record.AddMove(handle);
@@ -190,6 +114,46 @@
             if (Record.Ply > 99)
             {
                 this.SetNewGame();
+                this.phase = 1;
+            }
+        }
+
+        /// <summary>
+        /// 検査フェーズ。
+        /// </summary>
+        private void Inspector()
+        {
+            // 定跡を適当に選ぶ。
+            (var curPos, var bookRow) = Book.RandomRow;
+
+            // ハンドルと、局面の前後　が有っているか確認する。
+            var position = Position.Parse(curPos);
+            position.RotateOnly(MoveHelper.GetReversedHandle(bookRow.Handle));
+            if (bookRow.PreviousBoardText != position.BoardText)
+            {
+                // エラー。
+                Trace.WriteLine("検査: 行削除。ハンドルと、局面の前後が不一致。");
+
+                // データを消す。
+                Book.Remove(curPos);
+            }
+
+            this.phase = 0;
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            var rand = new Random();
+
+            if (this.phase == 0)
+            {
+                // 生成フェーズ。
+                this.GenerateBookRow();
+            }
+            else
+            {
+                // 検査フェーズ。
+                this.Inspector();
             }
         }
     }

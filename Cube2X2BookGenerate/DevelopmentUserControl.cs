@@ -71,14 +71,14 @@
         /// <summary>
         /// 90度回転。4つのタイルを、１つずらします。
         /// </summary>
-        /// <param name="a">タイル1。</param>
-        /// <param name="b">タイル2。</param>
-        /// <param name="c">タイル3。</param>
-        /// <param name="d">タイル4。</param>
-        public void Shift4(int a, int b, int c, int d)
+        /// <param name="titleA">タイル1。</param>
+        /// <param name="titleB">タイル2。</param>
+        /// <param name="titleC">タイル3。</param>
+        /// <param name="titleD">タイル4。</param>
+        public void Shift4(int titleA, int titleB, int titleC, int titleD)
         {
             // 展開図
-            this.DevelopmentPosition.Shift4(a, b, c, d);
+            this.DevelopmentPosition.Shift4(titleA, titleB, titleC, titleD);
         }
 
         /// <summary>
