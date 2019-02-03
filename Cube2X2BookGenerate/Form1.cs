@@ -31,7 +31,7 @@
         /// <summary>
         /// 定跡。
         /// </summary>
-        private Dictionary<string, BookRecord> book;
+        private Dictionary<string, BookRow> book;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
@@ -40,7 +40,7 @@
         {
             this.InitializeComponent();
             this.record = new int[100];
-            this.book = new Dictionary<string, BookRecord>();
+            this.book = new Dictionary<string, BookRow>();
             this.SetNewGame();
 
             // 定跡読込。
@@ -83,12 +83,12 @@
                         if (ply < this.book[tokens[0]].Ply)
                         {
                             // 短くなっていれば更新する。
-                            this.book[tokens[0]] = new BookRecord(tokens[1], move, ply);
+                            this.book[tokens[0]] = new BookRow(tokens[1], move, ply);
                         }
                     }
                     else
                     {
-                        this.book.Add(tokens[0], new BookRecord(tokens[1], move, ply));
+                        this.book.Add(tokens[0], new BookRow(tokens[1], move, ply));
                     }
                 }
             }
@@ -169,7 +169,7 @@
             // 定跡作成。
             // 現盤面 前盤面 指し手 初期局面からの手数
             var currentBoardText = this.developmentUserControl1.GetBoardText();
-            var bookRecord = new BookRecord(this.previousBoardText, handle, this.ply);
+            var bookRecord = new BookRow(this.previousBoardText, handle, this.ply);
 
             bool newRecord = false;
             if (this.book.ContainsKey(currentBoardText))
@@ -195,6 +195,7 @@
 
             if (newRecord)
             {
+                // 新しいレコードを出力。
                 Trace.WriteLine(string.Format(
                     CultureInfo.CurrentCulture,
                     "Write: ./book.txt {0} {1} size({2})",
@@ -202,8 +203,8 @@
                     bookRecord.ToText(),
                     this.book.Count));
 
-                // TODO ばんばん保存。
-                File.WriteAllText("./book.txt", this.ToBookText());
+                // TODO ファイル アクセスの回数を減らしたい☆（＾～＾）
+                Book.Save(this.ToBookText());
             }
 
             this.record[this.ply] = handle;

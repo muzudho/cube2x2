@@ -3,17 +3,17 @@
     using System.Globalization;
 
     /// <summary>
-    /// 定跡の内容。
+    /// 定跡の１行分。
     /// </summary>
-    public class BookRecord
+    public class BookRow
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BookRecord"/> class.
+        /// Initializes a new instance of the <see cref="BookRow"/> class.
         /// </summary>
         /// <param name="previousBoardText">1つ前の盤面。</param>
         /// <param name="handle">90°回転させた箇所。</param>
         /// <param name="ply">初期局面から何手目か。</param>
-        public BookRecord(string previousBoardText, int handle, int ply)
+        public BookRow(string previousBoardText, int handle, int ply)
         {
             this.PreviousBoardText = previousBoardText;
             this.Handle = handle;
