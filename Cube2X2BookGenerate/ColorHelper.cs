@@ -49,27 +49,27 @@
         /// <returns>アルファベット。</returns>
         public static string GetShort(int color)
         {
-            if (color == 0)
+            if (color == (int)ColorNumber.Red)
             {
                 return "r";
             }
-            else if (color == 1)
+            else if (color == (int)ColorNumber.Green)
             {
                 return "g";
             }
-            else if (color == 2)
+            else if (color == (int)ColorNumber.Blue)
             {
                 return "b";
             }
-            else if (color == 3)
+            else if (color == (int)ColorNumber.Yellow)
             {
                 return "y";
             }
-            else if (color == 4)
+            else if (color == (int)ColorNumber.Violet)
             {
                 return "v";
             }
-            else if (color == 5)
+            else if (color == (int)ColorNumber.Gray)
             {
                 return "w";
             }
@@ -110,6 +110,76 @@
             }
 
             return Color.Black;
+        }
+
+        /// <summary>
+        /// 数を色に変換します。
+        /// </summary>
+        /// <param name="color">色番号。</param>
+        /// <returns>色。</returns>
+        public static Color GetColor(int color)
+        {
+            if (color == 0)
+            {
+                return Color.Pink;
+            }
+            else if (color == 1)
+            {
+                return Color.Lime;
+            }
+            else if (color == 2)
+            {
+                return Color.SkyBlue;
+            }
+            else if (color == 3)
+            {
+                return Color.Orange;
+            }
+            else if (color == 4)
+            {
+                return Color.Violet;
+            }
+            else if (color == 5)
+            {
+                return Color.LightGray;
+            }
+
+            return Color.Black;
+        }
+
+        /// <summary>
+        /// 色を数に変換します。
+        /// </summary>
+        /// <param name="color">色番号。</param>
+        /// <returns>色。</returns>
+        public static int GetColor(Color color)
+        {
+            if (color == Color.Pink)
+            {
+                return (int)ColorNumber.Red;
+            }
+            else if (color == Color.Lime)
+            {
+                return (int)ColorNumber.Green;
+            }
+            else if (color == Color.SkyBlue)
+            {
+                return (int)ColorNumber.Blue;
+            }
+            else if (color == Color.Orange)
+            {
+                return (int)ColorNumber.Yellow;
+            }
+            else if (color == Color.Violet)
+            {
+                return (int)ColorNumber.Violet;
+            }
+            else if (color == Color.LightGray)
+            {
+                return (int)ColorNumber.Gray;
+            }
+
+            return (int)ColorNumber.Error;
         }
 
         /// <summary>

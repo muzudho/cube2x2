@@ -45,7 +45,7 @@
         {
             Record.SetNewGame();
             this.developmentUserControl1.SetNewGame();
-            this.previousBoardText = this.developmentUserControl1.GetBoardText();
+            this.previousBoardText = this.developmentUserControl1.BoardText;
         }
 
         /// <summary>
@@ -143,7 +143,7 @@
 
             // 定跡作成。
             // 現盤面 前盤面 指し手 初期局面からの手数
-            var currentBoardText = this.developmentUserControl1.GetBoardText();
+            var currentBoardText = this.developmentUserControl1.BoardText;
             var bookRecord = new BookRow(this.previousBoardText, handle, Record.Ply);
 
             bool newRecord = false;

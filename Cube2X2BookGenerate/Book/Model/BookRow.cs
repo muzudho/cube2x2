@@ -31,7 +31,7 @@
         public int Handle { get; set; }
 
         /// <summary>
-        /// Gets or sets 初期局面から何手目か。
+        /// Gets or sets 初期局面から何手目か。1手目なら 0。
         /// </summary>
         public int Ply { get; set; }
 
