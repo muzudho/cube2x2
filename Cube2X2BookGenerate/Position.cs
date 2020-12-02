@@ -24,6 +24,17 @@
         }
 
         /// <summary>
+        /// Gets 初期局面。
+        /// </summary>
+        public static string StartPosition
+        {
+            get
+            {
+                return "yyyy/vvvv/rrrr/bbbb/wwww/gggg";
+            }
+        }
+
+        /// <summary>
         /// Gets or sets タイルの色の配列。
         /// </summary>
         public int[] TileColorArray { get; set; }

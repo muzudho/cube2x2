@@ -124,18 +124,58 @@
         private void Inspector()
         {
             // 定跡を適当に選ぶ。
-            (var curPos, var bookRow) = Book.RandomRow;
+            (var currentPositionText, var bookRow) = Book.RandomRow;
 
-            // ハンドルと、局面の前後　が有っているか確認する。
-            var position = Position.Parse(curPos);
-            position.RotateOnly(MoveHelper.GetReversedHandle(bookRow.Handle));
-            if (bookRow.PreviousBoardText != position.BoardText)
+            while (true)
             {
-                // エラー。
-                Trace.WriteLine("検査: 行削除。ハンドルと、局面の前後が不一致。");
+                // ハンドルと、局面の前後　が有っているか確認する。
+                var position = Position.Parse(currentPositionText);
 
-                // データを消す。
-                Book.Remove(curPos);
+                // 1手戻す。
+                var reversedHandle = MoveHelper.GetReversedHandle(bookRow.Handle);
+                position.RotateOnly(reversedHandle);
+
+                if (bookRow.PreviousBoardText != position.BoardText)
+                {
+                    // エラー。
+                    var message = string.Format(
+                        CultureInfo.CurrentCulture,
+                        "検査: 行削除。ハンドルと、局面の前後が不一致。 Current: '{0}', Handle: '{1}', ReversedHandle: '{2}', Expected previous: '{3}', Actual previous: '{4}'.",
+                        currentPositionText,
+                        bookRow.Handle,
+                        reversedHandle,
+                        bookRow.PreviousBoardText,
+                        position.BoardText);
+                    Trace.WriteLine(message);
+
+                    // データを消す。
+                    Book.Remove(currentPositionText);
+                }
+
+                // 初期局面に　たどり着いたら　抜ける。
+                if (bookRow.PreviousBoardText == Position.StartPosition)
+                {
+                    Trace.WriteLine("検査良好。");
+                    break;
+                }
+
+                // 1つ前の局面。
+                if (!Book.ContainsKey(bookRow.PreviousBoardText))
+                {
+                    // 無い場合、間違ったデータだったので消されたか、間引きされたか。
+                    // 別のルートでつながるなど、使い道はあるかもしれない。
+                    // とりあえずループを抜ける。
+                    var message = string.Format(
+                        CultureInfo.CurrentCulture,
+                        "検査: 無視。前局面に遡れない定跡。 Actual previous: '{0}'.",
+                        bookRow.PreviousBoardText);
+                    Trace.WriteLine(message);
+                    break;
+                }
+
+                // 巻き戻し。
+                currentPositionText = bookRow.PreviousBoardText;
+                bookRow = Book.GetValue(currentPositionText);
             }
 
             this.phase = 0;
